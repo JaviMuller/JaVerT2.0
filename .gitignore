@@ -18,6 +18,9 @@ TAGS
 .projectSettings
 .settings
 
+# CSCode
+.vscode
+
 # OCaml
 *.cma
 *.cmi
