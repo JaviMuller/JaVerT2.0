@@ -4,7 +4,7 @@ open SVal
 
 module L = Logging
 
-type model = Z3.Model.model
+type model = z3.Model.model
 
 let concretise (a : Formula.t) (x: string) (les : Expr.t list) : Formula.t list =
   List.map (fun le -> Formula.substitution (SSubst.init [ x, le ]) true a) les
