@@ -759,7 +759,7 @@ let rec encode_logical_expression (le : Expr.t) : ZExpr.expr =
     raise (Failure msg)
 
 
-
+(*
 let encode_quantifier quantifier_type ctx quantified_vars var_sorts assertion =
   if ((List.length quantified_vars) > 0) then
     (let quantified_assertion =
@@ -778,6 +778,7 @@ let encode_quantifier quantifier_type ctx quantified_vars var_sorts assertion =
     let quantified_assertion = ZExpr.simplify quantified_assertion None in
     quantified_assertion)
   else assertion
+  *)
 
 let make_recognizer_assertion x (t_x : Type.t) =
   let le_x = ZExpr.mk_const ctx (mk_string_symb x) extended_literal_sort in
@@ -832,14 +833,14 @@ let rec encode_assertion (a : Formula.t) : ZExpr.expr =
     let le2' = ZExpr.mk_app ctx extended_literal_operations.set_accessor  [ fe le2 ] in
     Set.mk_subset ctx le1' le2'
 
-  | ForAll (bt, a) ->
+  (*| ForAll (bt, a) ->
       let z3_sorts = List.map (fun x -> extended_literal_sort) bt in
       let bt_with_some = List.filter (fun (x, t_x) -> t_x <> None) bt in 
       let z3_types_assertions = List.map (fun (x, t_x) -> make_recognizer_assertion x (Option.get t_x)) bt_with_some in
        let binders, _ = List.split bt in
       let z3_types_assertion = Boolean.mk_and ctx z3_types_assertions in
       let z3_a  = Boolean.mk_implies ctx z3_types_assertion (f a) in
-      encode_quantifier true ctx binders z3_sorts z3_a
+      encode_quantifier true ctx binders z3_sorts z3_a *)
 
   | _ ->
     let msg = Printf.sprintf "Unsupported assertion to encode for Z3: %s" (Formula.str a) in

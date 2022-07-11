@@ -831,7 +831,7 @@ js_only_spec_target:
   sspecs = separated_nonempty_list(SCOLON, js_pre_post_target); EOF
   {
     let (name, params) = spec_head in
-    { name; params; sspecs  }
+    JSSpec.{ name; params; sspecs  }
   }
 
 jsil_lemma_target:
@@ -1085,7 +1085,7 @@ lit_target:
   | LOC                       { Loc $1 }
   | type_target               { Type $1 }
   | LSTNIL                    { LList [] }
-  | LSTOPEN LSTCLOSE          { LList [] }
+  | LSTOPEN LSTCLOSE          { Literal.LList [] }
 ;
 
 extensible_target:
@@ -1156,7 +1156,7 @@ unop_target:
   | LSTLEN      { LstLen }
   | LSTREV      { LstRev }
   | STRLEN      { StrLen }
-  | SETTOLIST   { SetToList }
+  | SETTOLIST   { UnOp.SetToList }
 ;
 
 constant_target:
