@@ -4,18 +4,18 @@ open SVal
 
 module L = Logging
 
-module Arithmetic    = z3.Arithmetic
-module Boolean       = z3.Boolean
-module Datatype      = z3.Datatype
-module Enumeration   = z3.Enumeration
-module FloatingPoint = z3.FloatingPoint
-module FuncDecl      = z3.FuncDecl
-module Model         = z3.Model
-module Quantifier    = z3.Quantifier
-module Set           = z3.Set
-module Solver        = z3.Solver
-module Symbol        = z3.Symbol
-module ZExpr         = z3.Expr
+module Arithmetic    = Z3.Arithmetic
+module Boolean       = Z3.Boolean
+module Datatype      = Z3.Datatype
+module Enumeration   = Z3.Enumeration
+module FloatingPoint = Z3.FloatingPoint
+module FuncDecl      = Z3.FuncDecl
+module Model         = Z3.Model
+module Quantifier    = Z3.Quantifier
+module Set           = Z3.Set
+module Solver        = Z3.Solver
+module Symbol        = Z3.Symbol
+module ZExpr         = Z3.Expr
 
 
 let encoding_cache : (Formula.Set.t, ZExpr.expr list) Hashtbl.t = Hashtbl.create big_tbl_size
@@ -124,7 +124,7 @@ type extended_jsil_value_constructor = {
 }
 
 let cfg = [("model", "true"); ("proof", "true"); ("unsat_core", "true"); ("timeout", "16384")]
-let ctx : z3.context = (z3.mk_context cfg)
+let ctx : Z3.context = (Z3.mk_context cfg)
 
 let booleans_sort = Boolean.mk_sort ctx
 let ints_sort     = Arithmetic.Integer.mk_sort ctx
@@ -754,7 +754,7 @@ let rec encode_logical_expression (le : Expr.t) : ZExpr.expr =
     ZExpr.mk_app ctx extended_literal_operations.set_constructor [ arg_list ]
 
   | _                     ->
-    let msg = Printf.sprintf "Failure - z3 encoding: Unsupported logical expression: %s"
+    let msg = Printf.sprintf "Failure - Z3 encoding: Unsupported logical expression: %s"
       (Expr.str le) in
     raise (Failure msg)
 
@@ -819,7 +819,7 @@ let rec encode_assertion (a : Formula.t) : ZExpr.expr =
     let le1' = ZExpr.mk_app ctx lit_operations.number_accessor  [ mk_singleton_access (fe le1) ] in
     let le2' = ZExpr.mk_app ctx lit_operations.number_accessor  [ mk_singleton_access (fe le2) ] in
     mk_le ctx le1' le2'
-  | StrLess (_, _)    -> raise (Failure ("z3 encoding does not support STRLESS"))
+  | StrLess (_, _)    -> raise (Failure ("Z3 encoding does not support STRLESS"))
   | True               -> Boolean.mk_true ctx
   | False             -> Boolean.mk_false ctx
   | Or (a1, a2)       -> Boolean.mk_or ctx [ (f a1); (f a2) ]
@@ -843,7 +843,7 @@ let rec encode_assertion (a : Formula.t) : ZExpr.expr =
       encode_quantifier true ctx binders z3_sorts z3_a *)
 
   | _ ->
-    let msg = Printf.sprintf "Unsupported assertion to encode for z3: %s" (Formula.str a) in
+    let msg = Printf.sprintf "Unsupported assertion to encode for Z3: %s" (Formula.str a) in
     raise (Failure msg)
 
 
@@ -938,7 +938,7 @@ let check_sat_core (fs : Formula.Set.t) (gamma : TypEnv.t) : Model.model option 
         
   (* Step 4: BREAK if ret = UNKNOWN *)
   if (ret = Solver.UNKNOWN) then (
-    let msg = (Printf.sprintf "FATAL ERROR: z3 returned UNKNOWN for SAT question:\n%s\nwith gamma:\n%s" 
+    let msg = (Printf.sprintf "FATAL ERROR: Z3 returned UNKNOWN for SAT question:\n%s\nwith gamma:\n%s" 
       (String.concat ", " (List.map Formula.str (Formula.Set.elements fs))) (TypEnv.str gamma)) in 
     Printf.printf "%s" msg; 
     exit 1
@@ -978,8 +978,8 @@ let lift_z3_model (model : Model.model) (gamma : TypEnv.t) (subst : SSubst.t) (v
   
   let recover_z3_number (n : ZExpr.expr) : float option = 
     if (ZExpr.is_numeral n) then (
-      L.log L.Verboser (lazy ("z3 number: " ^ (ZExpr.to_string n)));
-      Some (float_of_string (z3.Arithmetic.Real.to_decimal_string n 16))
+      L.log L.Verboser (lazy ("Z3 number: " ^ (ZExpr.to_string n)));
+      Some (float_of_string (Z3.Arithmetic.Real.to_decimal_string n 16))
     ) else None in  
   
   let recover_z3_int (zn : ZExpr.expr) : int option =  
@@ -1012,7 +1012,7 @@ let lift_z3_model (model : Model.model) (gamma : TypEnv.t) (subst : SSubst.t) (v
   List.iter 
     (fun x -> 
       let v = lift_z3_val x in 
-      L.log L.Verboser (lazy (Printf.sprintf "z3 binding for %s: %s\n" x (Option.map_default Expr.str "NO BINDING!" v))); 
+      L.log L.Verboser (lazy (Printf.sprintf "Z3 binding for %s: %s\n" x (Option.map_default Expr.str "NO BINDING!" v))); 
       Option.map_default (SSubst.put subst x) () v   
     ) (SS.elements vars)
   
