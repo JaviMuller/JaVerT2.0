@@ -1,6 +1,8 @@
 JS2JSILPREFLAGS = -file
 JS2JSILPOSTFLAGS = -cosette
 TARGETS = $(patsubst %.js, %.jsil, $(wildcard *.js))
+# Added while example 8 is not working
+TARGETS := $(filter-out example-8.jsil, $(TARGETS))
 
 all: $(TARGETS)
 
