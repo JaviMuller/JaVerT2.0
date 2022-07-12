@@ -5,7 +5,9 @@ function sanitize(s) {
 };
 
 function f(x) {
-	Assert(!is_symb(sanitize(x)));
+	var x1 = sanitize(x);
+	var ret = !is_symb(x1);
+	Assert(ret);
     return eval(sanitize(x));
 };
 

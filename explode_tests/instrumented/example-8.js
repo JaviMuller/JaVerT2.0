@@ -4,9 +4,12 @@ var t = symb(t);
 function f(p, t) {
     let customer = { name: "person", role: "user" }
     customer[p] = t;
-	Assert(!is_symb(customer.role));
+	var ret1 = !is_symb(customer.role);
+	Assert(ret1);
     console.log(`customer.role => ${customer.role}`);
-	Assert(!is_symb(customer.toString()));
+	var x = customer.toString();
+	var ret2 = !is_symb(x);
+	Assert(ret2);
     console.log(`toString implementation => ${customer.toString()}`);
 };
 

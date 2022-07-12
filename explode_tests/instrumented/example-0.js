@@ -1,7 +1,8 @@
 var x = symb(x);
 
 function f(x) {
-	Assert(!is_symbolic(x));
+	var ret = !is_symbolic(x);
+	Assert(ret);
     return eval(x);
 };
 

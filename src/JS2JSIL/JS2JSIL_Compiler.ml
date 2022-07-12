@@ -1405,8 +1405,6 @@ let rec translate_expr tr_ctx e : ((Annot.t * (string option) * LabCmd.t) list) 
         let e'         = Parsing_Utils.parse_expr_from_string assert_arg_str in
         let xs         = Expr.pvars e' in 
         let subst      = SSubst.init [] in 
-        
-        Printf.printf "blah\n";
 
         let cmds, errs =  
           List.fold_left (fun (cmds, errs) x ->
@@ -1463,8 +1461,6 @@ let rec translate_expr tr_ctx e : ((Annot.t * (string option) * LabCmd.t) list) 
     when (e_f.JSParserSyntax.exp_stx = (JSParserSyntax.Var js_symbolic_constructs.js_is_symb)) ->
       (match es with
       | [ e ] ->
-
-        Printf.printf "Caught JS is symbol!!!\n";
 
         let cmds_e, x_e, errs_e = f e in
 

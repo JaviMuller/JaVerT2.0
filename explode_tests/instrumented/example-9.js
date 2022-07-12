@@ -7,7 +7,8 @@ function f(source1, source2) {
     const myFunc = new Func;
     if (source1)
         myFunc[source2] = myFunc.x + source1; // internal property tampering
-	Assert(!is_symb(myFunc.x));
+	var ret = !is_symb(myFunc.x);
+	Assert(ret);
     return eval(myFunc.x); // taint - style vulnerability like command injection
 };
 

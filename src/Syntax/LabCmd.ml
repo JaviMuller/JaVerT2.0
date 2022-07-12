@@ -69,7 +69,7 @@ let str (lcmd : t) : string =
       | LReturnNormal -> "return"
       | LReturnError  -> "throw"
       
-      | LIsSymbolic (x, e) -> Printf.sprintf "%s := IsSymbolic(%s)" x (Expr.str e)
+      | LIsSymbolic (x, e) -> Printf.sprintf "%s := isSymbolic(%s)" x (Expr.str e)
       
       ) in 
     ret 

@@ -1,10 +1,13 @@
-// Ajuda
+// const read = require("./aux-files/external-read");
+function read() {
+    return "2+2";
+};
 
-const read = require("./aux-files/external-read");
 
 function f() {
     const s = read();
-	Assert(!is_symb(s));
+	var ret = !is_symbolic(s);
+	Assert(ret);
     return eval(s);
 };
 

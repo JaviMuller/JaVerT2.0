@@ -4,7 +4,8 @@ function read() {
 
 function f() {
     const s = read();
-	Assert(!is_symb(s));
+	var ret = !is_symbolic(s);
+	Assert(ret);
     return eval(s);
 };
 

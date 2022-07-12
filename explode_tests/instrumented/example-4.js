@@ -8,7 +8,8 @@ req.body = body;
 function f(req) {
     const x = req.body;
     x.a = 2;
-	Assert(!is_symb(x.param));
+	ret = !is_symbolic(x.param);
+	Assert(ret);
     return eval(x.param);
 }
 

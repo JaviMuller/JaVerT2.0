@@ -513,13 +513,9 @@ let evaluate_cmd
 
   | IsSymbolic(x, e) -> 
 
-    L.log L.Normal (lazy (Printf.sprintf "Inside is symbolic 1 %s\n" (Expr.str e))); 
-
     let v = eval_expr e in 
     let b = Val.is_concrete v in 
-
-    L.log L.Normal (lazy (Printf.sprintf "Inside is symbolic 2 %s\n" (Expr.str e))); 
-
+	
     let state' = update_store state x (Val.from_literal (Bool (not b))) in 
 		  [ ConfCont (state', cs, i, i+1, b_counter) ] 
 
