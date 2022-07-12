@@ -86,6 +86,7 @@
       "apply",        JSIL_Parser.APPLY;
       "PHI",          JSIL_Parser.PHI;
       "return",       JSIL_Parser.RETURN;
+      "isSymbolic",   JSIL_Parser.ISSYMB;
       "throw",        JSIL_Parser.THROW;
       "extern",       JSIL_Parser.EXTERN;
       

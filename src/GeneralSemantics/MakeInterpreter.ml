@@ -326,7 +326,7 @@ let evaluate_bcmd
       | GMSucc [ state', _, vm ] -> [ update_store state' x vm ] 
       | GMFail errs -> raise (State_error (errs, state))
     )
-	
+
 	| _ -> raise (Internal_error "Basic command not supported!")
 
 (**
@@ -509,6 +509,8 @@ let evaluate_cmd
           let v_args = List.tl v_pid_args_list in 
             evaluate_procedure_call x pid v_args j None 
       | None -> raise (Failure (Printf.sprintf "Apply not called with a list: %s" (Val.str v_pid_args))))
+
+  | IsSymbolic(x, e) -> raise (Internal_error "IsSymbolic Not Supported!")
 
   | Arguments x -> 
       let args = CallStack.get_cur_args cs in 

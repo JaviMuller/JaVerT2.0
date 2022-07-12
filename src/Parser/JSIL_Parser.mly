@@ -179,6 +179,7 @@ let copy_and_clear_globals () =
 %token APPLY
 %token PHI
 %token RETURN
+%token ISSYMB
 %token THROW
 %token EXTERN
 (* Logic variables *)
@@ -514,6 +515,13 @@ cmd_target:
       | [] -> raise (Failure "EMPTY PHI")
       | _  -> LPhiAssignment phi_args
     }
+
+(* x := isSymbolic (e) *)
+|  v=VAR; DEFEQ; ISSYMB; LBRACE; e=expr_target; RBRACE
+  {
+    LIsSymbolic (v, e)
+  }
+  
 (* return *)
   | RETURN { LReturnNormal }
   | THROW  { LReturnError  }

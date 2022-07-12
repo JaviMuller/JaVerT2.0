@@ -18,6 +18,8 @@ type t =
 	| PhiAssignment  of (string * Expr.t list) list                (** PHI assignment *)
   | ReturnNormal                                                 (** Normal return *)
   | ReturnError                                                  (** Error return *)
+  | IsSymbolic     of string * Expr.t 
+
 
 (** JSIL All Statements *)
 let str (str_tabs : string) (i : int) (cmd : t) : string =	
@@ -73,6 +75,8 @@ let str (str_tabs : string) (i : int) (cmd : t) : string =
   | ReturnError  -> str_tabs ^ Printf.sprintf "%sthrow"  str_i
   | Logic lcmd   -> str_tabs ^ str_i ^ (LCmd.str lcmd)
 
+  | IsSymbolic (x, e) -> Printf.sprintf "%s%s := IsSymbolic(%s)" str_tabs x (Expr.str e)
+
 let vars (cmd : t) : SS.t = 
   let ve = Expr.vars in 
   let vb = BCmd.vars in 
@@ -87,4 +91,5 @@ let vars (cmd : t) : SS.t =
   | PhiAssignment lele -> List.fold_left SS.union SS.empty (List.map (fun (_, le) -> List.fold_left SS.union SS.empty (List.map ve le)) lele)
   | ReturnNormal -> SS.empty
   | ReturnError -> SS.empty
+  | IsSymbolic (x, e) -> SS.add x (ve e)
   )

@@ -99,6 +99,7 @@ let to_proc (lproc : t) : Proc.t =
             | LApply (x, le, ol) -> Apply (x, le, match ol with | None -> None | Some lab -> Some (find_with_error mapping lab))
             | LArguments var -> Arguments var
             | LPhiAssignment xargs -> PhiAssignment xargs 
+            | LIsSymbolic (x, e) -> IsSymbolic(x, e)
             | LReturnNormal -> ReturnNormal
             | LReturnError  -> ReturnError 
             | LLogic lcmd   -> Logic lcmd  in

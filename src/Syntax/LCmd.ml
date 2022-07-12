@@ -14,7 +14,8 @@ type t =
   | AssumeType of string * Type.t              (** Assume Type      *)
   | SpecVar    of string list                  (** Spec Var         *)
   | FreshLVar  of string * string              (** Fresh LVar       *)
-  | SL         of SLCmd.t                                                           
+  | SL         of SLCmd.t                                                      
+
 
 let rec map 
 	(f_l  : (t -> t) option)

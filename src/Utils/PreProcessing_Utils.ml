@@ -23,7 +23,8 @@ let get_succ_pred cmds =
       | Logic _ 
       | Basic _
       | Arguments _
-      | PhiAssignment _ -> 
+      | PhiAssignment _ 
+      | IsSymbolic _ -> 
           update_succ_table (u + 1) u;
           update_pred_table u (u + 1)
 

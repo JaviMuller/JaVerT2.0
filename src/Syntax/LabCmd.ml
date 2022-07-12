@@ -16,6 +16,7 @@ type t =
   | LPhiAssignment  of (string * Expr.t list) list
   | LReturnNormal
   | LReturnError
+  | LIsSymbolic     of string * Expr.t 
 
 let str (lcmd : t) : string =
     let se = Expr.str in
@@ -66,5 +67,9 @@ let str (lcmd : t) : string =
         let strs = List.map (fun (v, es) -> v ^ ": " ^ (String.concat ", " (List.map se es))) lva in 
           Printf.sprintf "PHI(%s)" (String.concat "; " strs)
       | LReturnNormal -> "return"
-      | LReturnError  -> "throw") in 
+      | LReturnError  -> "throw"
+      
+      | LIsSymbolic (x, e) -> Printf.sprintf "%s := IsSymbolic(%s)" x (Expr.str e)
+      
+      ) in 
     ret 
