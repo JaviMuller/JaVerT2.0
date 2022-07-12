@@ -1406,6 +1406,8 @@ let rec translate_expr tr_ctx e : ((Annot.t * (string option) * LabCmd.t) list) 
         let xs         = Expr.pvars e' in 
         let subst      = SSubst.init [] in 
         
+        Printf.printf "blah\n";
+
         let cmds, errs =  
           List.fold_left (fun (cmds, errs) x ->
             let new_cmds, x_expr, new_errs = 
@@ -1456,6 +1458,27 @@ let rec translate_expr tr_ctx e : ((Annot.t * (string option) * LabCmd.t) list) 
 
             (cmds @ [ cmd ]), Lit Empty, errs 
       | _ -> raise (Failure "Invalid assume"))
+
+   | JSParserSyntax.Call (e_f, es)
+    when (e_f.JSParserSyntax.exp_stx = (JSParserSyntax.Var js_symbolic_constructs.js_is_symb)) ->
+      (match es with
+      | [ e ] ->
+
+        Printf.printf "Caught JS is symbol!!!\n";
+
+        let cmds_e, x_e, errs_e = f e in
+
+        (* x_v_e := i__getValue (x_e) with err *)
+        let x_v_e, cmd_gv_xe, errs_x_ve = make_get_value_call x_e tr_ctx.tr_err_lab in
+
+        (* x_r := isSymbolic(x_v_e) *)
+        let x_r = fresh_var () in
+        let cmd_is_symb = LIsSymbolic (x_r, PVar x_v_e) in 
+
+        cmds_e @ (annotate_cmds [ None, cmd_gv_xe; None, cmd_is_symb ]), PVar x_r, errs_e @ errs_x_ve
+
+      | _ -> raise (Failure "Invalid is_symbolic"))
+
 
 
   | JSParserSyntax.Call (e_f, xes)

@@ -348,6 +348,7 @@ let evaluate_cmd
 	(i         : int)
   (b_counter : int) : cconf_t list = 
 
+  
   (* State simplification *)
   (if (!javert) then let _ = State.simplify state in ()); 
   
@@ -510,7 +511,17 @@ let evaluate_cmd
             evaluate_procedure_call x pid v_args j None 
       | None -> raise (Failure (Printf.sprintf "Apply not called with a list: %s" (Val.str v_pid_args))))
 
-  | IsSymbolic(x, e) -> raise (Internal_error "IsSymbolic Not Supported!")
+  | IsSymbolic(x, e) -> 
+
+    L.log L.Normal (lazy (Printf.sprintf "Inside is symbolic 1 %s\n" (Expr.str e))); 
+
+    let v = eval_expr e in 
+    let b = Val.is_concrete v in 
+
+    L.log L.Normal (lazy (Printf.sprintf "Inside is symbolic 2 %s\n" (Expr.str e))); 
+
+    let state' = update_store state x (Val.from_literal (Bool (not b))) in 
+		  [ ConfCont (state', cs, i, i+1, b_counter) ] 
 
   | Arguments x -> 
       let args = CallStack.get_cur_args cs in 

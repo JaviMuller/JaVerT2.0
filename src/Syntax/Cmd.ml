@@ -75,7 +75,7 @@ let str (str_tabs : string) (i : int) (cmd : t) : string =
   | ReturnError  -> str_tabs ^ Printf.sprintf "%sthrow"  str_i
   | Logic lcmd   -> str_tabs ^ str_i ^ (LCmd.str lcmd)
 
-  | IsSymbolic (x, e) -> Printf.sprintf "%s%s := IsSymbolic(%s)" str_tabs x (Expr.str e)
+  | IsSymbolic (x, e) -> Printf.sprintf "%s%s := isSymbolic(%s)" str_tabs x (Expr.str e)
 
 let vars (cmd : t) : SS.t = 
   let ve = Expr.vars in 

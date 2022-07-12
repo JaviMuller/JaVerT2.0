@@ -12,7 +12,8 @@ type js_symbolic_constructs_type = {
 	js_fresh_symb  : string; 
 	js_symb_number : string; 
 	js_symb_string : string;
-	js_symb_bool   : string
+	js_symb_bool   : string; 
+	js_is_symb     : string; 
 }
 
 let js_symbolic_constructs = {
@@ -22,7 +23,8 @@ let js_symbolic_constructs = {
 	js_fresh_symb  = "fresh_symb";
 	js_symb_number = "symb_number"; 
 	js_symb_string = "symb_string";
-	js_symb_bool   = "symb_bool" 
+	js_symb_bool   = "symb_bool"; 
+	js_is_symb     = "is_symbolic"; 
 }
 
 let js2jsil_imports = [

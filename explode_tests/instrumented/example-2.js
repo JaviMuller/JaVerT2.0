@@ -4,7 +4,8 @@ function f(y) {
     var x = {};
     x.f = y;
     var o = x;
-	Assert(!is_symb(o.f));
+    var ret = !is_symbolic(o.f);
+	Assert(ret);
     return eval(o.f);
 };
 
