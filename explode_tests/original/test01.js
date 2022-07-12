@@ -7,8 +7,7 @@ o.sth = sth;
 
 function f(o) {
   if (o.param > 0) {
-    //assert(!is_symbolic(o.sth))
-	Assert(false);
+	Assert(!is_symbolic(o.sth));
 	eval (o.sth)
   } else {
     Assume (false);
