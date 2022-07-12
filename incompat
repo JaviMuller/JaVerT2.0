@@ -11,11 +11,6 @@ File for adding incompatibilities from new dependency versions:
 		Reason: Split the library into separate packages `containers`, `containers-data`, and `containers-thread`
 		Solution: View Migration guide at https://ocaml.org/p/containers-data/3.0
 		Latest Compatible Version: 2.8.1
-
-	(SOLVED) z3 != 4.8.5
-		Reason: Inconsistent naming ('Z3' vs 'z3')
-		Solution: Change name of dependencies for 'z3' (only?)
-		Compatible Version: Z3.4.8.4
 	
 	OCaml >= 4.07.0
 		Reason: Alert deprecated: module Stdlib.Pervasives. Use Stdlib instead.
