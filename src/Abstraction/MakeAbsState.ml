@@ -642,6 +642,10 @@ module M
     let state, _, _ = astate in 
     State.update_subst state subst 
 
+  let get_type_env (astate : t) : TypEnv.t option = 
+    let state, _, _ = astate in 
+    State.get_type_env state 
+
  end 
 
 

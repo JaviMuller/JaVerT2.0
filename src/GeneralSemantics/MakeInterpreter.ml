@@ -203,7 +203,9 @@ let print_lconfiguration (lcmd : LCmd.t) (state : State.t) : unit =
           let err : Error.t = ESpec ([], Not f', [ [ MPF f' ]]) in 
           let failing_model = State.sat_check_f state [ Not f' ] in 
           let fm_str        = Option.map_default (fun subst -> Subst.str subst) "CANNOT CREATE MODEL" failing_model in 
-          let msg           = Printf.sprintf "Assert failed with argument %s.\nFailing Model:\n\t%s\n" (Formula.str f') fm_str in 
+          let tenv          = State.get_type_env state in 
+          let tenv_str      = Option.map_default TypEnv.str "" tenv in 
+          let msg           = Printf.sprintf "Assert failed with argument %s.\nFailing Model:\n\t%s\nTyping Environment:\n%s\n" (Formula.str f') fm_str tenv_str in 
           if (not !SCommon.bi) then (Printf.printf "%s" msg); 
           L.log L.Normal (lazy msg); 
           raise (State_error ([ err ], state)))

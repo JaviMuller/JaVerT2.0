@@ -173,4 +173,6 @@ module type M = sig
 
       val update_subst : t -> st -> unit  
 
+      val get_type_env : t -> TypEnv.t option 
+
 end

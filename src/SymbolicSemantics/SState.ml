@@ -620,6 +620,10 @@ module M = struct
         ) [] in 
   List.iter (fun (x, e) -> SSubst.put subst x e) new_bindings 
 
+  let get_type_env (state : t) : TypEnv.t option = 
+    let (_, _, _, tenv, _) = state in 
+    Some tenv
+
 end
 
 

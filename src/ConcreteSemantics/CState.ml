@@ -272,3 +272,6 @@ let unify_assertion (state : t) (subst : st) (p : Asrt.t) : u_res =
 let update_subst (state : t) (subst : st) : unit = () 
 
 
+let get_type_env (state : t) : TypEnv.t option = None 
+
+

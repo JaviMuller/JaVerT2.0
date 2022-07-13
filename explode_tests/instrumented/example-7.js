@@ -1,7 +1,7 @@
 var x = symb(x);
 
 function sanitize(s) {
-    return s;
+    return 3;
 };
 
 function f(x) {

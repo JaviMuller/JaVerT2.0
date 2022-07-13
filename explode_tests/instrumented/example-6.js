@@ -1,5 +1,6 @@
 function read() {
-    return "2+2";
+    var x = 2;
+    return x;
 };
 
 function f() {

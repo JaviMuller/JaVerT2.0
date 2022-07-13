@@ -800,5 +800,9 @@ module M
 
   let update_subst (state : t) (subst : st) : unit = () 
 
+  let get_type_env (bistate : t) : TypEnv.t option = 
+    let _, state, _ = bistate in 
+    State.get_type_env state 
+
  end 
 
