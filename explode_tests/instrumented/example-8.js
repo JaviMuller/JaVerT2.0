@@ -2,7 +2,7 @@ var p = symb(p);
 var t = symb(t);
 
 function f(p, t) {
-    let customer = { name: "person", role: "user" }
+    var customer = { name: "person", role: "user" }
     customer[p] = t;
 	var ret1 = !is_symbolic(customer.role);
 	Assert(ret1);
