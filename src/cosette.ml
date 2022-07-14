@@ -19,6 +19,12 @@ let arguments () =
       (* *)
       "-silent",  Arg.Unit(fun () -> Logging.silent := true), "suppress output";
 
+      (* create output files *)
+      "-out_mode", Arg.Int(fun n -> (Output.mode := n; Output.file := !file; Output.enabled := true)), "output mode (0: json, 1: normal, 2: json + normal)";
+
+      (* create json files *)
+      "-json", Arg.Unit(fun () -> (Output.mode := 0; Output.file := !file; Output.enabled := true)), "same as -out_mode=0";
+
       (* *)
       "-stats",  Arg.Unit(fun () -> CCommon.stats := true), "display statistics";
 
@@ -93,11 +99,15 @@ let process_file (path : string) : unit =
 
 let main () =
 		arguments ();
+    Output.open_f();
+    Output.write_json_begin();
     let pid = Unix.getpid() in 
     let start_time = Sys.time () in 
 		process_file !file;
     let end_time = Sys.time () in 
     if (!stats) then print_statistics ();
+    Output.write_json_end();
+    Output.wrap_up();
     Logging.wrap_up();
     act_threads := !act_threads - 1
 

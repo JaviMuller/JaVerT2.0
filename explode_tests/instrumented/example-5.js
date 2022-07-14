@@ -1,7 +1,6 @@
 // const read = require("./aux-files/external-read");
 function read() {
-    var x; 
-    x = symb(x);
+    var x = symb(x);
     return x;
 };
 

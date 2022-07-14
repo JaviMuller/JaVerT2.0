@@ -3,6 +3,7 @@ open SCommon
 open Literal 
 
 module L = Logging
+module O = Output
 
 (** General JSIL Interpreter *)
 module M 
@@ -12,6 +13,10 @@ module M
   (Error    : Error.M with type vt = Val.t and type st = Subst.t)
   (State    : State.M with type vt = Val.t and type st = Subst.t and type store_t = Store.t and type err_t = Error.t) = struct 
  
+
+(* Output options *)
+
+
 (* *************** *
  * Auxiliary Types *
  * *************** *)
@@ -202,13 +207,42 @@ let print_lconfiguration (lcmd : LCmd.t) (state : State.t) : unit =
         | false -> 
           let err : Error.t = ESpec ([], Not f', [ [ MPF f' ]]) in 
           let failing_model = State.sat_check_f state [ Not f' ] in 
-          let fm_str        = Option.map_default (fun subst -> Subst.str subst) "CANNOT CREATE MODEL" failing_model in 
+          let fm_str        = Option.map_default Subst.str "CANNOT CREATE MODEL" failing_model in
+          let fm_list       = Option.map_default Subst.to_list [] failing_model in
           let tenv          = State.get_type_env state in 
-          let tenv_str      = Option.map_default TypEnv.str "" tenv in 
-          let msg           = Printf.sprintf "Assert failed with argument %s.\nFailing Model:\n\t%s\nTyping Environment:\n%s\n" (Formula.str f') fm_str tenv_str in 
-          if (not !SCommon.bi) then (Printf.printf "%s" msg); 
-          L.log L.Normal (lazy msg); 
+          let tenv_str      = Option.map_default TypEnv.str "" tenv in
+          let tenv_list     = Option.map_default TypEnv.get_var_type_pairs [] tenv in
+          let msg           = Printf.sprintf "Assert failed with argument %s.\nFailing Model:\n\t%s\nTyping Environment:\n%s\n" (Formula.str f') fm_str tenv_str in
+          let rec json_fm_aux fm : string = 
+            (match fm with
+            | [] -> "\t\t],\n"
+            | hd :: tl -> (
+              let (var, value) = hd in
+              if (tl = []) then
+                (Printf.sprintf "\t\t\t{\"var\": \"%s\", \"val\": \"%s\"}\n" (Var.str var) (Val.str value)) ^ (json_fm_aux tl)
+              else
+                (Printf.sprintf "\t\t\t{\"var\": \"%s\", \"val\": \"%s\"},\n" (Var.str var) (Val.str value)) ^ (json_fm_aux tl)
+            )) in
+          let json_fm       = "\t\t\"fail_model\": [\n" ^ (json_fm_aux fm_list) in
+          let rec json_te_aux te : string =
+            (match te with
+            | [] -> "\t\t]\n"
+            | hd :: tl -> (
+              let (var, tp) = hd in
+              if (tl = []) then
+                (Printf.sprintf "\t\t\t{\"var\": \"%s\", \"type\": \"%s\"}\n" var  (Type.str tp)) ^ (json_te_aux tl)
+              else
+                (Printf.sprintf "\t\t\t{\"var\": \"%s\", \"type\": \"%s\"}, \n" var (Type.str tp)) ^ (json_te_aux tl)
+              )) in
+          let json_te       = "\t\t\"typ_env\": [\n" ^ (json_te_aux tenv_list) in
+          let json          = Printf.sprintf "\t{\n\t\t\"type\": \"assert_fail\",\n\t\t\"assert_arg\": \"%s\",\n%s%s\t},\n" (Formula.str f') json_fm json_te in
+
+          if (not !SCommon.bi) then (Printf.printf "%s" msg);
+          O.write O.Normal (lazy msg);
+          O.write O.JSON (lazy json);
+          L.log L.Normal (lazy msg);
           raise (State_error ([ err ], state)))
+          
     
     | Macro (name, args) -> 
         let macro = Macro.get prog.prog.macros name in 

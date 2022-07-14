@@ -10,9 +10,7 @@ function f(o) {
         o.y = "2";
 		var out = o.y + o.w;
 		var ret = !is_symbolic(out);
-        //var ret = ret && is_safe(out); 
 		Assert(ret);
-        //Assume(false);
         return eval(o.y + o.w);
     }
 };

@@ -1,0 +1,4 @@
+Problemas com a implementação de Output:
+	☐ File é passado como string vazia e não como o valor substituído em -file
+	☐ Funções não exec em cosette.ml (open_f, write_json_begin/end)
+	☐ Não consigo criar subdirectoria para guardar ficheiros out
