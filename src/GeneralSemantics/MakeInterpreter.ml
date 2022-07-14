@@ -131,6 +131,18 @@ let print_lconfiguration (lcmd : LCmd.t) (state : State.t) : unit =
   L.log L.Normal msg
 
 
+let subst_to_csubst (subst : Subst.t) : (string * Literal.t) list option = 
+  let subst_lst = Subst.to_list subst in 
+  let csubst_list = List.map (fun (x, v) -> (x, Val.to_literal v)) subst_lst in 
+  List.fold_left 
+    (fun ac (x, vo) -> 
+      match ac, vo with 
+        | None, _ -> None 
+        | Some _, None -> None
+        | Some lst, Some v -> Some ((x, v) :: lst) 
+    ) (Some []) csubst_list
+
+
 (* ************** *
  * Main Functions *
  * ************** *)

@@ -1,5 +1,6 @@
 open CCommon
 open SCommon
+open JSON_Utils
 
 let file    = ref ""
 let js2jsil = ref false
