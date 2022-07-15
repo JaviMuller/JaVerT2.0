@@ -14,7 +14,10 @@ let json_of_type_pair ((var, tp) : (string * Type.t)) : string =
     Printf.sprintf "\t\t\t\t{\"var\": \"%s\", \"type\": \"%s\"}" var (Type.str tp)
 
 let json_of_var_val_pair ((var, value) : (string * Literal.t)) : string = 
-    Printf.sprintf "\t\t\t\t{\"var\": \"%s\", \"val\": \"%s\"}" var (Literal.str value)
+    match value with
+    | Num _ -> Printf.sprintf "\t\t\t\t{\"var\": \"%s\", \"val\": %s}" var ((Literal.str value) ^ "0")
+    | Undefined -> Printf.sprintf "\t\t\t\t{\"var\": \"%s\"}" var
+    | _ -> Printf.sprintf "\t\t\t\t{\"var\": \"%s\", \"val\": %s}" var (Literal.str value)
 
 let json_of_types (tes : TypEnv.t) : string = 
     let tes_lst = TypEnv.get_var_type_pairs tes in
