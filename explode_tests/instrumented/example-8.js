@@ -1,16 +1,19 @@
 var p = symb(p);
-var t = symb(t);
-
-function f(p, t) {
-    var customer = { name: "person", role: "user" }
-    customer[p] = t;
-	var ret1 = !is_symbolic(customer.role);
-	Assert(ret1);
-    console.log(`customer.role => ${customer.role}`);
-	var x = customer.toString();
-	var ret2 = !is_symbolic(x);
-	Assert(ret2);
-    console.log(`toString implementation => ${customer.toString()}`);
+,var t = symb(t);
+const f = function (p, t) {
+	let customer = {};
+	customer.name = 'person';
+	customer.role = 'user';
+	customer[p] = t;
+	const v1 = console.log;
+	const v2 = customer.role;
+	const v3 = v1(`customer.role => ${ v2 }`);
+	v3;
+	const v4 = console.log;
+	const v5 = customer.toString;
+	const v6 = v5();
+	const v7 = v4(`toString implementation => ${ v6 }`);
+	v7;
 };
-
-f(p, t);
+;
+f(p,t);

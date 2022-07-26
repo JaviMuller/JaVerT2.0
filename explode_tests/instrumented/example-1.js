@@ -1,11 +1,15 @@
 var y = symb(y);
-
-function f(y) {
-    var x = {};
-    x.f = y;
-    var r = !is_symbolic(x.f); 
-    Assert(r);
-    return eval(x.f);
+const f = function (y) {
+	let x = {};
+	x.f = y;
+	const v1 = x.f;
+		{
+		var _instr_x1 = !is_symbolic(v1);
+		Assert(_instr_x1);
+		var v2 = eval(v1);
+	}
+	;
+	return v2;
 };
-
+;
 f(y);

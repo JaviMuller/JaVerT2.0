@@ -1,15 +1,15 @@
-// const read = require("./aux-files/external-read");
-function read() {
-    var x = symb(x);
-    return x;
+const read = function () {
+	return '2+2';
 };
-
-
-function f() {
-    var s = read();
-	var ret = !is_symbolic(s);
-	Assert(ret);
-    return eval(s);
+const f = function () {
+	const s = read();
+		{
+		var _instr_x1 = !is_symbolic(s);
+		Assert(_instr_x1);
+		var v1 = eval(s);
+	}
+	;
+	return v1;
 };
-
+;
 f();

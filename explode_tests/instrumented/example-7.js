@@ -1,14 +1,16 @@
 var x = symb(x);
-
-function sanitize(s) {
-    return 3;
+const sanatize = function (s) {
+	return s;
 };
-
-function f(x) {
-	var x1 = sanitize(x);
-	var ret = !is_symbolic(x1);
-	Assert(ret);
-    return eval(sanitize(x));
+const f = function (x) {
+	const v1 = sanatize(x);
+		{
+		var _instr_x1 = !is_symbolic(v1);
+		Assert(_instr_x1);
+		var v2 = eval(v1);
+	}
+	;
+	return v2;
 };
-
+;
 f(x);
