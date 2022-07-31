@@ -1,9 +1,7 @@
 var instr_obj_0 = {};
 var instr_obj_1 = {};
 var instr_symb_0 = symb(instr_symb_0);
-var instr_symb_1 = symb(instr_symb_1);
-instr_obj_1.a = instr_symb_0;
-instr_obj_1.param = instr_symb_1;
+instr_obj_1.param = instr_symb_0;
 instr_obj_0.body = instr_obj_1;
 
 const f = function (req) {
