@@ -3,13 +3,7 @@ const read = function () {
 };
 const f = function () {
 	const s = read();
-		{
-		var _instr_x1 = !is_symbolic(s);
-		Assert(_instr_x1);
-		var v1 = eval(s);
-	}
-	;
+	const v1 = eval(s);
 	return v1;
 };
-;
-f();
+module.exports = f;

@@ -1,5 +1,3 @@
-var p = symb(p);
-,var t = symb(t);
 const f = function (p, t) {
 	let customer = {};
 	customer.name = 'person';
@@ -15,5 +13,4 @@ const f = function (p, t) {
 	const v7 = v4(`toString implementation => ${ v6 }`);
 	v7;
 };
-;
-f(p,t);
+module.exports = f;
