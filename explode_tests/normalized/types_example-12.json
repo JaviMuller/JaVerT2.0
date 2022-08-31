@@ -1,0 +1,17 @@
+{
+	"sink_types": ["eval"],
+	"function": "f",
+	"params": ["c", "p"],
+	"vars": [
+		{
+			"name": "c",
+			"type": "object",
+			"properties": [],
+			"symbolic_properties": 1
+		},
+		{
+			"name": "p",
+			"type": "symbolic"
+		}
+	]
+}

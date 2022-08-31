@@ -220,38 +220,13 @@ let subst_to_csubst (subst : Subst.t) : (string * Literal.t) list option =
           let err : Error.t = ESpec ([], Not f', [ [ MPF f' ]]) in 
           let failing_model = State.sat_check_f state [ Not f' ] in 
           let fm_str        = Option.map_default Subst.str "CANNOT CREATE MODEL" failing_model in
-          let fm_list       = Option.map_default Subst.to_list [] failing_model in
           let tenv          = State.get_type_env state in 
           let tenv_str      = Option.map_default TypEnv.str "" tenv in
-          let tenv_list     = Option.map_default TypEnv.get_var_type_pairs [] tenv in
           let msg           = Printf.sprintf "Assert failed with argument %s.\nFailing Model:\n\t%s\nTyping Environment:\n%s\n" (Formula.str f') fm_str tenv_str in
-          let rec json_fm_aux fm : string = 
-            (match fm with
-            | [] -> "\t\t],\n"
-            | hd :: tl -> (
-              let (var, value) = hd in
-              if (tl = []) then
-                (Printf.sprintf "\t\t\t{\"var\": \"%s\", \"val\": \"%s\"}\n" (Var.str var) (Val.str value)) ^ (json_fm_aux tl)
-              else
-                (Printf.sprintf "\t\t\t{\"var\": \"%s\", \"val\": \"%s\"},\n" (Var.str var) (Val.str value)) ^ (json_fm_aux tl)
-            )) in
-          let json_fm       = "\t\t\"fail_model\": [\n" ^ (json_fm_aux fm_list) in
-          let rec json_te_aux te : string =
-            (match te with
-            | [] -> "\t\t]\n"
-            | hd :: tl -> (
-              let (var, tp) = hd in
-              if (tl = []) then
-                (Printf.sprintf "\t\t\t{\"var\": \"%s\", \"type\": \"%s\"}\n" var  (Type.str tp)) ^ (json_te_aux tl)
-              else
-                (Printf.sprintf "\t\t\t{\"var\": \"%s\", \"type\": \"%s\"}, \n" var (Type.str tp)) ^ (json_te_aux tl)
-              )) in
-          let json_te       = "\t\t\"typ_env\": [\n" ^ (json_te_aux tenv_list) in
-          let json          = Printf.sprintf "\t{\n\t\t\"type\": \"assert_fail\",\n\t\t\"assert_arg\": \"%s\",\n%s%s\t},\n" (Formula.str f') json_fm json_te in
 
           if (not !SCommon.bi) then (Printf.printf "%s" msg);
           O.write O.Normal (lazy msg);
-          O.write O.JSON (lazy json);
+          JSON_Utils.add_model (Formula.str f') (Option.map_default subst_to_csubst None failing_model) tenv;
           L.log L.Normal (lazy msg);
           raise (State_error ([ err ], state)))
           
