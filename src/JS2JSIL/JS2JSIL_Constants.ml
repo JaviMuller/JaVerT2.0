@@ -291,12 +291,14 @@ type translation_context = {
 	tr_js_lab:             string option;
 	tr_ret_lab:            string;
 	tr_err_lab:            string;
-	tr_use_cc:             bool
+	tr_use_cc:             bool;
+	tr_inside_assign:      bool 
 }
 
 
 let make_translation_ctx ?(loop_list=[]) ?(previous=None) ?(js_lab=None) offset_converter fid vis_list sc_var =
 	{
+		tr_inside_assign = false; 
 		tr_offset_converter = offset_converter;
 		tr_fid        = fid;
 		tr_er_fid     = fid;

@@ -1080,7 +1080,7 @@ let rec translate_expr tr_ctx e : ((Annot.t * (string option) * LabCmd.t) list) 
 
   | JSParserSyntax.CAccess (e1, e2) ->
     (**
-      Section 11.2.1 - Property Accessors
+      Section 11.2.1 - Property Accessors 
       C(e1) = cmds1, x1; C(e2) = cmds2, x2
       C(e1[e2]) =
         cmds1
@@ -1089,6 +1089,7 @@ let rec translate_expr tr_ctx e : ((Annot.t * (string option) * LabCmd.t) list) 
         x2_v := i__getValue (x2) with err
         x_oc := i__checkObjectCoercible (x1_v) with err
         x2_s := i__toString (x2_v) with err
+        Assert(x2_s != "__proto__") ---> if inside assignment 
         x_r  := ref-o(x1_v, x4_v)
      *)
 
@@ -1108,6 +1109,13 @@ let rec translate_expr tr_ctx e : ((Annot.t * (string option) * LabCmd.t) list) 
     (* x2_s := i__toString (x2_v) with err *)
     let x2_s, cmd_ts_x2 = make_to_string_computed_call x2 x2_v tr_ctx.tr_err_lab in
 
+    (* Assert(x2_s != "__proto__") *)
+    let asrt = Formula.Not (Formula.Eq (PVar x2_s, Lit (String "__proto__"))) in 
+    let assert_cmd = 
+      if tr_ctx.tr_inside_assign 
+        then LLogic (LCmd.Assert asrt) 
+        else LBasic Skip in 
+
     (*  x_r := ref-o(x1_v, x2_s) *)
     let x_r = fresh_var () in
     let cmd_ass_xr = LBasic (Assignment (x_r, EList [lit_refo; PVar x1_v; PVar x2_s])) in
@@ -1118,6 +1126,7 @@ let rec translate_expr tr_ctx e : ((Annot.t * (string option) * LabCmd.t) list) 
       (None, cmd_gv_x2);            (* x2_v := i__getValue (x2) with err                *)
       (None, cmd_coc_x1);           (* x_oc := i__checkObjectCoercible (x1_v) with err  *)
       (None, cmd_ts_x2);            (* x2_s := i__toString (x2_v) with err              *)
+      (None, assert_cmd);           (* Assert(x2_s != "__proto__") | Skip               *)
       (None, cmd_ass_xr)            (* x_r := ref-o(x1_v, xs_s)                         *)
     ])) in
     let errs = errs1 @ errs_x1_v @ errs2 @ errs_x2_v @ [ x_oc; x2_s ] in
@@ -2664,7 +2673,7 @@ let rec translate_expr tr_ctx e : ((Annot.t * (string option) * LabCmd.t) list) 
                         x_pv = i__putValue (x1, x2_v) with err
      *)
 
-    let cmds1, x1, errs1 = f e1 in
+    let cmds1, x1, errs1 = translate_expr {tr_ctx with tr_inside_assign = true} e1 in
     let cmds2, x2, errs2 = f e2 in
 
     (* x2_v := i__getValue (x2) with err *)
