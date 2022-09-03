@@ -1,5 +1,7 @@
 var instr_obj_0 = {};
 var instr_symb_0 = symb(instr_symb_0);
+instr_obj_0.symb_prop_1 = instr_symb_0;
+var instr_symb_1 = symb(instr_symb_1);
 
 const f = function (c, p) {
 	let x = c[p];
@@ -9,4 +11,4 @@ const f = function (c, p) {
 	return v1;
 };
 
-f(instr_obj_0,instr_symb_0);
+f(instr_obj_0, instr_symb_1);

@@ -15,16 +15,16 @@ const f = function (p, t) {
 	customer[v1] = t;
 	const v2 = console.log;
 	const v3 = customer.role;
-	const instr_test_0 = !is_symbolic(`customer.role => ${ v3 }`);
+	const instr_test_0 = !is_symbolic('customer.role => ' + v3);
 	Assert(instr_test_0);
-	const v4 = v2(`customer.role => ${ v3 }`);
+	const v4 = v2('customer.role => ' + v3);
 	v4;
 	const v5 = console.log;
 	const v6 = customer.toString;
 	const v7 = v6();
-	const instr_test_1 = !is_symbolic(`toString implementation => ${ v7 }`);
+	const instr_test_1 = !is_symbolic('toString implementation => ' + v7);
 	Assert(instr_test_1);
-	const v8 = v5(`toString implementation => ${ v7 }`);
+	const v8 = v5('toString implementation => ' + v7);
 	v8;
 };
 

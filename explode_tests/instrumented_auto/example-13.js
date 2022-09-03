@@ -12,4 +12,4 @@ const f = function (e, x) {
 	}
 };
 
-f(instr_symb_0,instr_symb_1);
+f(instr_symb_0, instr_symb_1);

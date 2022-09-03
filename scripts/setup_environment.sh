@@ -11,6 +11,7 @@ cp src/JS2JSIL/biruntime/*.jsil environment
 cp src/JS2JSIL/runtime/harness.js environment
 cp src/JS2JSIL/ES5_runtime/*.jsil environment
 cp -r explode_tests environment
+mkdir -p environment/_out
 
 # test262 tests
 rm -rf test262/environment

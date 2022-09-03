@@ -6,12 +6,16 @@
 		{
 			"name": "c",
 			"type": "object",
-			"properties": [],
-			"symbolic_properties": 1
+			"properties": [
+				{
+					"name": "symb_prop_1",
+					"type": "symbolic"
+				}
+			]
 		},
 		{
 			"name": "p",
-			"type": "symbolic"
+			"type": "prop_string"
 		}
 	]
 }
