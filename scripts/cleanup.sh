@@ -1,5 +1,5 @@
 rm log*
 rm -rf _out
-cd explode_tests/instrumented
+rm explode_tests/instrumented_auto/*.jsil
 make clean
 cd ../..
