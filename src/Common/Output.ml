@@ -19,7 +19,7 @@ let file = ref ""
 
 (** Directory to save output files*)
 let dir = "./_out/"
-let create_dir () : unit = if not (Sys.file_exists dir) then Unix.mkdir dir 0o755
+let create_dir () : unit = if (!enabled && not (Sys.file_exists dir)) then Unix.mkdir dir 0o755
 
 (** Prefix for output files *)
 let output_prefix = "out_"
