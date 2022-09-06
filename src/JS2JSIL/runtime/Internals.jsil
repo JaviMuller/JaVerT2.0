@@ -747,7 +747,8 @@ proc i__putValue (v, w) {
 
 	refr:	  goto [(typeOf v = List) and (l-nth (v, 0) = "o")] oref vref;
 
-	oref:	  ret := "put" (rbase, rfield, w, true) with elab;
+	oref:	assert (!(rbase == $lobj_proto));  
+			ret := "put" (rbase, rfield, w, true) with elab;
 			    goto dflt;
 
 	vref:	  goto [rbase = $lg] lg er;
