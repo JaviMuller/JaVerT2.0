@@ -5,6 +5,12 @@ Assume(not(instr_symb_str_0 = "toString"));
 Assume(not(instr_symb_str_0 = "hasOwnProperty"));
 Assume(not(instr_symb_str_0 = "constructor"));
 path__instr_array_0.push(instr_symb_str_0);
+var instr_symb_str_1 = symb_string(instr_symb_str_1);
+Assume(not(instr_symb_str_1 = "valueOf"));
+Assume(not(instr_symb_str_1 = "toString"));
+Assume(not(instr_symb_str_1 = "hasOwnProperty"));
+Assume(not(instr_symb_str_1 = "constructor"));
+path__instr_array_0.push(instr_symb_str_1);
 var value__instr_symb_0 = symb(value__instr_symb_0);
 
 const f = function (path, value) {
