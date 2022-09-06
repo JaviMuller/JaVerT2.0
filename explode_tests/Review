@@ -1,0 +1,17 @@
+Example 5 and 6:
+	They have a failing model I think should not exist
+
+Example 7:
+	It has a sanitize function. Still have not decided what to do.
+
+Examples 8, 14, 17, 18:
+	Not detecting the vulnerability aside from internal prototype tampering
+
+Example 15:
+	Failing model incorrect
+
+Example 21:
+	Not executing correctly
+
+All OK:
+	The rest
