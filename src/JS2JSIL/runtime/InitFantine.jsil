@@ -27,7 +27,7 @@ proc create_default_object (pr, cl, ext) {
         [m, "@extensible"] := ext;
 
         (* acrescentar a propriedade __proto__ ao objecto ret apontando para o o respectivo prototipo *)
-      [ret, "__proto__"] := {{ "d", pr, false, false, false }};
+      [ret, "__proto__"] := {{ "d", pr, true, true, true }};
 
         return
 };
@@ -49,7 +49,7 @@ proc create_default_object_concrete (l, pr, cl, ext) {
         [m, "@extensible"] := ext;
 
         (* acrescentar a propriedade __proto__ ao objecto ret apontando para o o respectivo prototipo *)
-	[ret, "__proto__"] := {{ "d", pr, false, false, false }};
+	[ret, "__proto__"] := {{ "d", pr, true, true, true }};
 
         ret := l;
         return
