@@ -35,7 +35,7 @@ let json_of_failing_model (fm : t) : string =
                     \t\t\t\"typ_env\": [\n\
                               %s\n\
                     \t\t\t]\n\
-                    \t\t}" fm.asrt_str (json_of_subst fm.subst) (Option.map_default json_of_types "" fm.types)
+                    \t\t}" (Str.global_replace (Str.regexp "\"") "\\\"" fm.asrt_str) (json_of_subst fm.subst) (Option.map_default json_of_types "" fm.types)
 
 let add_model (asrt_str : string) (subst : subst_t) (types : TypEnv.t option) : unit = 
     error_models := {asrt_str; subst; types} :: !(error_models)
