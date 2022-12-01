@@ -16,3 +16,15 @@ File for adding incompatibilities from new dependency versions:
 		Reason: Alert deprecated: module Stdlib.Pervasives. Use Stdlib instead.
 		Solution: Add stdlib-shims to libraries, and replace all Pervasives.* calls by Stdlib.*
 		Latest Compatible Version 4.06.1-1
+
+	Z3 (ocaml version)
+		Reason: Feature modifications + name changed from Z3 to z3
+		Solution: Unknown
+		How to install working version:
+			- Clone z3 git repo (https://github.com/Z3Prover/z3)
+			- Checkout to commit 48e996241
+			- Run python3 scripts/mk_make.py --ml
+			- cd build
+			- make (-j n for multithread)
+			- Add ocamlfind to superuser path or install ocaml-findlib
+			- sudo make install
